@@ -17,8 +17,11 @@ window.onload = function() {
     
     function preload() {
         game.load.image('popeye', 'assets/popeye1.png');
-        game.load.image('bullet', 'assets/bullet0.png');
+        game.load.image('bullet', 'assets/stars.png');
         game.load.image('banana', 'assets/spin2.png');
+        game.load.image( 'bg', 'assets/popeyebg.jpg' ); //load background 
+         game.load.audio('track','assets/popeyesong.mp3');
+        
 
     }
     
@@ -27,6 +30,8 @@ window.onload = function() {
     var veggies;
     var cursors;
     var bananas; 
+    var bkgr;
+    var music; 
     
     var score = 0;
     var score_text; 
@@ -41,27 +46,15 @@ window.onload = function() {
 
   
     function create() {
-        game.stage.backgroundColor = '#00FFFF';
+        music = game.sound.play('track'); //added music here
+        //game.stage.backgroundColor = '#00FFFF';
+        bkgr = game.add.tileSprite(0, 0, 1010, 1000, 'bg'); 
         //game.physics.startSystem(Phaser.Physics.ARCADE);
         //game.physics.arcade.gravity.y = 60;
 
-    //  This will check Group vs. Group collision (bullets vs. veggies!)
 
-    /*veggies = game.add.group();
-    veggies.enableBody = true;
-    veggies.physicsBodyType = Phaser.Physics.ARCADE;
-
-    for (var i = 0; i < 50; i++)
-    {
-        var c = veggies.create(game.world.randomX, Math.random() * 500, 'veggies', game.rnd.integerInRange(0, 36));
-        c.name = 'veg' + i;
-        c.body.immovable = true;
-    }*/ 
-        
-        //introduce the notion of a time limit.
         timer = game.time.create(false);
-        //30 second timer
-        timer.loop(Phaser.Timer.SECOND * 30, stopGame, this); //will kill timer once stopGame is called
+        timer.loop(Phaser.Timer.SECOND * 30, stopGame, this); 
         timer.start();
         
         spawner = game.time.create(false);
@@ -70,7 +63,7 @@ window.onload = function() {
         
         bananas = game.add.group();
 
-        //  We will enable physics for any treat that is created in this group
+
         bananas.enableBody = true;
 
         bullets = game.add.group();
@@ -95,13 +88,13 @@ window.onload = function() {
         
          //  The score
         score_text = game.add.text(16, 16, 
-            'Score: ' + score, { fontSize: '32px', fill: '#9999ff' });
+            'Score: ' + score, { fontSize: '32px', fill: '#FFFFFF' });
         
         
         // Add some text using a CSS style.
         // Center it in X, and position its top 15 pixels from the top of the world.
-        var style = { font: "25px Verdana", fill: "#9999ff", align: "center" };
-        var text = game.add.text( game.world.centerX, 50, "Feed the fish! Press space to hook the worms", style );
+        var style = { font: "25px Verdana", fill: "#FF0000", align: "center" };
+        var text = game.add.text( game.world.centerX, 50, "Feed popeye! Press space to shoot the spinach", style );
         text.anchor.setTo( 0.5, 0.0 );
     }  
     
